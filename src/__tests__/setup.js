@@ -1,3 +1,9 @@
+// Set up test environment
+process.env.NODE_ENV = 'test';
+
+// Mock fetch for browser environment
+global.fetch = jest.fn();
+
 // Set up different test environments for different test files
 const path = require('path');
 

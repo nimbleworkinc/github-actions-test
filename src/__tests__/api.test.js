@@ -8,18 +8,24 @@ const path = require('path');
 // Create a test app
 const app = express();
 app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.json());
 
 // Import the routes
 app.get('/api/hello', (req, res) => {
     res.json({ message: 'Hello from the API!' });
 });
 
-describe('API Endpoints', () => {
-    test('GET /api/hello should return hello message', async () => {
+describe('API Tests', () => {
+    test('GET /api/hello returns hello message', async () => {
         const response = await request(app).get('/api/hello');
-        expect(response.statusCode).toBe(200);
-        expect(response.body).toHaveProperty('message');
-        expect(response.body.message).toBe('Hello from the API!');
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual({ message: 'Hello from the API!' });
+    });
+
+    test('GET /api/hello with query parameter returns personalized message', async () => {
+        const response = await request(app).get('/api/hello?name=TestUser');
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual({ message: 'Hello, TestUser!' });
     });
 
     test('GET / should serve index.html', async () => {

@@ -1,5 +1,5 @@
 // Wrap the app initialization in a function
-window.initializeApp = function() {
+window.initializeApp = function () {
     // Get build information from environment variables
     const packageManager = process.env.PACKAGE_MANAGER || 'npm/yarn';
     const buildTime = process.env.BUILD_TIME || new Date().toISOString();

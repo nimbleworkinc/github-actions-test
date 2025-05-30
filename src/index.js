@@ -1,10 +1,12 @@
 const express = require('express');
 const path = require('path');
+const server = require('./server');
+
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Serve static files
-app.use(express.static(path.join(__dirname, 'public')));
+// Use the server routes
+app.use('/', server);
 
 // Routes
 app.get('/', (req, res) => {
@@ -16,5 +18,7 @@ app.get('/api/hello', (req, res) => {
     res.json({ message: 'Hello from the API!' });
 });
 
-// Start server
-app.listen(port); 
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+}); 
