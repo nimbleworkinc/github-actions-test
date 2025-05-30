@@ -21,21 +21,22 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '18.x'
-        cache: ${{ matrix.package-manager }}
+        # Only enable caching if lock file exists
+        cache: ${{ matrix.package-manager == 'npm' && hashFiles('package-lock.json') || matrix.package-manager == 'yarn' && hashFiles('yarn.lock') }}
 
     - name: Install dependencies
       run: |
         if [ "${{ matrix.package-manager }}" = "npm" ]; then
-          if [ -f "package-lock.json" ]; then
-            npm ci
-          else
-            npm install
+          npm install
+          # Generate package-lock.json if it doesn't exist
+          if [ ! -f "package-lock.json" ]; then
+            npm install --package-lock-only
           fi
         else
-          if [ -f "yarn.lock" ]; then
+          yarn install
+          # Generate yarn.lock if it doesn't exist
+          if [ ! -f "yarn.lock" ]; then
             yarn install --frozen-lockfile
-          else
-            yarn install
           fi
         fi
 
