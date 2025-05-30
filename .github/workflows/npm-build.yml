@@ -38,6 +38,8 @@ jobs:
           # Clean install
           rm -rf node_modules
           rm -f yarn.lock
+          # Generate yarn.lock from package.json
+          yarn import
           # Install with increased timeout
           yarn install --frozen-lockfile --no-audit --no-fund --network-timeout 100000
         fi
