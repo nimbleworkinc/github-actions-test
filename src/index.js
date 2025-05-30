@@ -15,7 +15,9 @@ app.get('/', (req, res) => {
 
 // API endpoint
 app.get('/api/hello', (req, res) => {
-    res.json({ message: 'Hello from the API!' });
+    const name = req.query.name;
+    const message = name ? `Hello, ${name}!` : 'Hello from the API!';
+    res.json({ message });
 });
 
 // Start the server
