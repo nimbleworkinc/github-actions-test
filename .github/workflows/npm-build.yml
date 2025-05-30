@@ -18,20 +18,25 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '18.x'
-        cache: 'npm'
 
-    - name: Clean install
+    - name: Generate package-lock.json
       run: |
-        echo "Cleaning previous installation..."
-        rm -rf node_modules
-        rm -f package-lock.json
+        echo "Generating package-lock.json..."
+        npm install --package-lock-only --no-audit --no-fund
+
+    - name: Cache npm dependencies
+      uses: actions/cache@v3
+      id: npm-cache
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
 
     - name: Install dependencies
       run: |
         echo "Installing dependencies..."
-        npm install --no-audit --no-fund --prefer-offline --no-progress
-        echo "Generating package-lock.json..."
-        npm install --package-lock-only --no-audit --no-fund --prefer-offline --no-progress
+        npm ci --no-audit --no-fund --prefer-offline --no-progress
 
     - name: Run linter
       run: |
