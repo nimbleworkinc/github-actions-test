@@ -26,9 +26,17 @@ jobs:
     - name: Install dependencies
       run: |
         if [ "${{ matrix.package-manager }}" = "npm" ]; then
-          npm ci
+          if [ -f "package-lock.json" ]; then
+            npm ci
+          else
+            npm install
+          fi
         else
-          yarn install --frozen-lockfile
+          if [ -f "yarn.lock" ]; then
+            yarn install --frozen-lockfile
+          else
+            yarn install
+          fi
         fi
 
     - name: Run linter
