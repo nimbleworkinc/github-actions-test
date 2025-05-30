@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     strategy:
       matrix:
@@ -28,14 +29,16 @@ jobs:
           # Clean install
           rm -rf node_modules
           rm -f package-lock.json
-          npm install --no-audit --no-fund
+          # Install with increased timeout and network retries
+          npm install --no-audit --no-fund --prefer-offline --no-progress --network-timeout 100000
           # Generate package-lock.json
-          npm install --package-lock-only --no-audit --no-fund
+          npm install --package-lock-only --no-audit --no-fund --prefer-offline --no-progress --network-timeout 100000
         else
           # Clean install
           rm -rf node_modules
           rm -f yarn.lock
-          yarn install --frozen-lockfile --no-audit --no-fund
+          # Install with increased timeout
+          yarn install --frozen-lockfile --no-audit --no-fund --network-timeout 100000
         fi
 
     - name: Run linter
