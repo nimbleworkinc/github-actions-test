@@ -21,8 +21,6 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '18.x'
-        # Only enable caching if lock file exists
-        cache: ${{ matrix.package-manager == 'npm' && hashFiles('package-lock.json') || matrix.package-manager == 'yarn' && hashFiles('yarn.lock') }}
 
     - name: Install dependencies
       run: |
