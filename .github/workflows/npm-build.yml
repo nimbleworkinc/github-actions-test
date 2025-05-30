@@ -22,6 +22,7 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '18.x'
+        cache: ${{ matrix.package-manager }}
 
     - name: Install dependencies
       run: |
@@ -29,10 +30,10 @@ jobs:
           # Clean install
           rm -rf node_modules
           rm -f package-lock.json
-          # Install with increased timeout and network retries
-          npm install --no-audit --no-fund --prefer-offline --no-progress --network-timeout 100000
+          # Install with increased timeout
+          npm install --no-audit --no-fund --prefer-offline --no-progress
           # Generate package-lock.json
-          npm install --package-lock-only --no-audit --no-fund --prefer-offline --no-progress --network-timeout 100000
+          npm install --package-lock-only --no-audit --no-fund --prefer-offline --no-progress
         else
           # Clean install
           rm -rf node_modules
