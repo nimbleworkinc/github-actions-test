@@ -1,3 +1,12 @@
+/**
+ * @jest-environment jsdom
+ */
+const fs = require('fs');
+const path = require('path');
+
+// Load the app.js content
+const appJs = fs.readFileSync(path.join(__dirname, '../public/app.js'), 'utf8');
+
 describe('Frontend App', () => {
     beforeEach(() => {
         // Set up the DOM
@@ -9,6 +18,11 @@ describe('Frontend App', () => {
                 <div id="apiResponse" class="api-response"></div>
             </div>
         `;
+
+        // Create a script element and execute app.js
+        const script = document.createElement('script');
+        script.textContent = appJs;
+        document.body.appendChild(script);
     });
 
     test('Build information is displayed', () => {
