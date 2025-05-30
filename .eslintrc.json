@@ -12,7 +12,15 @@
     },
     "rules": {
         "no-undef": "error",
-        "no-unused-vars": "warn"
+        "no-unused-vars": "warn",
+        "indent": ["error", 2],
+        "no-trailing-spaces": "error",
+        "eol-last": "error",
+        "import/newline-after-import": "error",
+        "space-before-function-paren": ["error", "always"],
+        "func-names": "off",
+        "comma-dangle": ["error", "always-multiline"],
+        "implicit-arrow-linebreak": "off"
     },
     "globals": {
         "window": "readonly"

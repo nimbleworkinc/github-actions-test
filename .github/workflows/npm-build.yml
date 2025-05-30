@@ -1,0 +1,63 @@
+name: NPM Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        package-manager: [npm, yarn]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+        cache: ${{ matrix.package-manager }}
+
+    - name: Install dependencies
+      run: |
+        if [ "${{ matrix.package-manager }}" = "npm" ]; then
+          npm ci
+        else
+          yarn install --frozen-lockfile
+        fi
+
+    - name: Run linter
+      run: |
+        if [ "${{ matrix.package-manager }}" = "npm" ]; then
+          npm run lint:fix
+        else
+          yarn lint:fix
+        fi
+
+    - name: Run tests
+      run: |
+        if [ "${{ matrix.package-manager }}" = "npm" ]; then
+          npm test
+        else
+          yarn test
+        fi
+
+    - name: Build
+      run: |
+        if [ "${{ matrix.package-manager }}" = "npm" ]; then
+          npm run build
+        else
+          yarn build
+        fi
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-${{ matrix.package-manager }}
+        path: dist/
+        retention-days: 5 
