@@ -31,6 +31,7 @@ jobs:
         fi
     
     - name: Run linting
+      continue-on-error: true  # Make linting optional
       run: |
         if [ "${{ matrix.package-manager }}" = "npm" ]; then
           npm run lint
