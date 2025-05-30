@@ -25,17 +25,17 @@ jobs:
     - name: Install dependencies
       run: |
         if [ "${{ matrix.package-manager }}" = "npm" ]; then
-          npm install
-          # Generate package-lock.json if it doesn't exist
-          if [ ! -f "package-lock.json" ]; then
-            npm install --package-lock-only
-          fi
+          # Clean install
+          rm -rf node_modules
+          rm -f package-lock.json
+          npm install --no-audit --no-fund
+          # Generate package-lock.json
+          npm install --package-lock-only --no-audit --no-fund
         else
-          yarn install
-          # Generate yarn.lock if it doesn't exist
-          if [ ! -f "yarn.lock" ]; then
-            yarn install --frozen-lockfile
-          fi
+          # Clean install
+          rm -rf node_modules
+          rm -f yarn.lock
+          yarn install --frozen-lockfile --no-audit --no-fund
         fi
 
     - name: Run linter
