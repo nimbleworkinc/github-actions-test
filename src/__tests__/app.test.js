@@ -48,7 +48,9 @@ describe('Frontend App', () => {
         document.getElementById('fetchApi').click();
 
         // Wait for the async operation
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await new Promise((resolve) => {
+            setTimeout(resolve, 0);
+        });
 
         // Check if API response is displayed
         const apiResponse = document.getElementById('apiResponse');
