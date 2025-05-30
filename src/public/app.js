@@ -1,5 +1,5 @@
 // Wrap the app initialization in a function
-function initializeApp() {
+window.initializeApp = function() {
     // Get build information from environment variables
     const packageManager = process.env.PACKAGE_MANAGER || 'npm/yarn';
     const buildTime = process.env.BUILD_TIME || new Date().toISOString();
@@ -22,11 +22,11 @@ function initializeApp() {
             apiResponse.textContent = `Error: ${error.message}`;
         }
     });
-}
+};
 
 // Initialize the app when the DOM is ready
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeApp);
+    document.addEventListener('DOMContentLoaded', window.initializeApp);
 } else {
-    initializeApp();
+    window.initializeApp();
 } 

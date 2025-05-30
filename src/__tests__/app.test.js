@@ -25,8 +25,8 @@ describe('Frontend App', () => {
         document.body.appendChild(script);
 
         // Manually trigger initialization since we're in a test environment
-        if (typeof initializeApp === 'function') {
-            initializeApp();
+        if (typeof window.initializeApp === 'function') {
+            window.initializeApp();
         }
     });
 
