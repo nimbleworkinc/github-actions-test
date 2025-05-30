@@ -23,13 +23,14 @@ describe('Frontend App', () => {
         const script = document.createElement('script');
         script.textContent = appJs;
         document.body.appendChild(script);
+
+        // Manually trigger initialization since we're in a test environment
+        if (typeof initializeApp === 'function') {
+            initializeApp();
+        }
     });
 
     test('Build information is displayed', () => {
-        // Mock the DOMContentLoaded event
-        const event = new Event('DOMContentLoaded');
-        document.dispatchEvent(event);
-
         // Check if build information is set
         expect(document.getElementById('package-manager').textContent).toBe('npm/yarn');
         expect(document.getElementById('build-time').textContent).not.toBe('Loading...');
