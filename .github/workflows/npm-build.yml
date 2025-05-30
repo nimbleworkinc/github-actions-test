@@ -11,10 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
-    strategy:
-      matrix:
-        package-manager: [npm, yarn]
-
     steps:
     - uses: actions/checkout@v3
 
@@ -22,55 +18,39 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '18.x'
-        cache: ${{ matrix.package-manager }}
+        cache: 'npm'
+
+    - name: Clean install
+      run: |
+        echo "Cleaning previous installation..."
+        rm -rf node_modules
+        rm -f package-lock.json
 
     - name: Install dependencies
       run: |
-        if [ "${{ matrix.package-manager }}" = "npm" ]; then
-          # Clean install
-          rm -rf node_modules
-          rm -f package-lock.json
-          # Install with increased timeout
-          npm install --no-audit --no-fund --prefer-offline --no-progress
-          # Generate package-lock.json
-          npm install --package-lock-only --no-audit --no-fund --prefer-offline --no-progress
-        else
-          # Clean install
-          rm -rf node_modules
-          rm -f yarn.lock
-          # Generate yarn.lock from package.json
-          yarn import
-          # Install with increased timeout
-          yarn install --frozen-lockfile --no-audit --no-fund --network-timeout 100000
-        fi
+        echo "Installing dependencies..."
+        npm install --no-audit --no-fund --prefer-offline --no-progress
+        echo "Generating package-lock.json..."
+        npm install --package-lock-only --no-audit --no-fund --prefer-offline --no-progress
 
     - name: Run linter
       run: |
-        if [ "${{ matrix.package-manager }}" = "npm" ]; then
-          npm run lint:fix
-        else
-          yarn lint:fix
-        fi
+        echo "Running linter..."
+        npm run lint:fix
 
     - name: Run tests
       run: |
-        if [ "${{ matrix.package-manager }}" = "npm" ]; then
-          npm test
-        else
-          yarn test
-        fi
+        echo "Running tests..."
+        npm test
 
     - name: Build
       run: |
-        if [ "${{ matrix.package-manager }}" = "npm" ]; then
-          npm run build
-        else
-          yarn build
-        fi
+        echo "Building project..."
+        npm run build
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: build-${{ matrix.package-manager }}
+        name: build-artifacts
         path: dist/
         retention-days: 5 
