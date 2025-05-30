@@ -21,14 +21,13 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '18'
-        cache: ${{ matrix.package-manager }}
     
     - name: Install dependencies with ${{ matrix.package-manager }}
       run: |
         if [ "${{ matrix.package-manager }}" = "npm" ]; then
-          npm ci
+          npm install
         else
-          yarn install --frozen-lockfile
+          yarn
         fi
     
     - name: Run linting
