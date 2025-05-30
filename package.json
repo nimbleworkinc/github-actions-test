@@ -1,0 +1,14 @@
+{
+  "name": "github-actions-test",
+  "version": "1.0.0",
+  "description": "Testing GitHub Actions with npm/yarn",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Running tests...\" && exit 0",
+    "build": "echo \"Building project...\" && mkdir -p dist && echo 'Hello from build!' > dist/build.txt",
+    "lint": "echo \"Running linting...\" && exit 0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+} 
