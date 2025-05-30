@@ -6,8 +6,7 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint .",
-    "build": "mkdir -p dist && cp -r src/* dist/ && cp package.json dist/",
-    "start": "node dist/index.js"
+    "build": "mkdir -p dist && cp -r src/* dist/ && cp package.json dist/"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +16,13 @@
   },
   "devDependencies": {
     "eslint": "^8.38.0",
-    "jest": "^29.5.0"
+    "jest": "^29.5.0",
+    "supertest": "^6.3.3"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": ["**/__tests__/**/*.test.js"],
+    "collectCoverage": true,
+    "coverageDirectory": "coverage"
   }
 } 
